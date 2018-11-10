@@ -1,6 +1,7 @@
 /* jshint node: true */
 "use strict";
 
+//Переменные
 var CLOUD_WIDTH = 420;
 var CLOUD_HEIGHT = 270;
 var CLOUD_X = 100;
@@ -11,7 +12,7 @@ var FONT_COLOR = "#000000";
 var STAT_HEIGHT = -CLOUD_HEIGHT + 140;
 var STAT_WIDTH = 40;
 
-//Шаблон текстового облака
+//Текстовое облако
 var makeCloud = function (ctx, start_x, start_y, color) {
     ctx.fillStyle = color;
     ctx.fillRect(start_x, start_y, CLOUD_WIDTH, CLOUD_HEIGHT);
