@@ -1,4 +1,6 @@
-/*jslint node: true */
+/* jshint node: true */
+/* jshint browser: true */
+/* global window */
 "use strict";
 
 var fireballSize = 22;

@@ -1,4 +1,6 @@
 /* jshint node: true */
+/* jshint browser: true */
+/* global window */
 "use strict";
 
 //Переменные
