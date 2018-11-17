@@ -158,6 +158,19 @@ var getRandom = function () {
   return randomDigit;
 };
 
+///// Создание похожих волшебников /////
+
+
+var onLoad = function(data) {
+  console.log(data);
+};
+var onError = function(message) {
+  console.error(message);
+};
+//Запрос данных для похожих волшебников
+window.backend.load(onLoad, onError);
+
+
 //Характеристики волшебников
 var firstName = ["Иван", "Хуан Себастьян", "Мария", "Кристоф", "Виктор", "Юлия", "Люпита", "Вашингтон", "Иван", "Хуан Себастьян"];
 

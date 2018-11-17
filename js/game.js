@@ -1,4 +1,7 @@
-'use strict';
+/* jshint node: true */
+/* jshint browser: true */
+/* global window */
+"use strict";
 
 window.GameConstants = {
   Fireball: {
