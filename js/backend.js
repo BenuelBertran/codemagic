@@ -4,13 +4,14 @@
 "use strict";
 
 (function() {
+  var URL = "https://js.dump.academy/code-and-magick/data";
   //
   window.backend = {
     load: function(onLoad, onError) {
       //Создание нового запроса
       var xhr = new XMLHttpRequest();
       //Инициализация запроса
-      xhr.open("GET", "https://js.dump.academy/code-and-magick/data");
+      xhr.open("GET", URL);
       //Указание формата ответа
       xhr.responseType = "json";
       //Выполнить, при получениии ответа
@@ -18,14 +19,48 @@
         if (xhr.status === 200) {
           onLoad(xhr.response);
         } else {
-          onError("Ошибка на стороне клиента: " + "#" + xhr.status + " " + xhr.statusText);
+          onError("<Error: 'Client'> Ошибка " + "#" + xhr.status + " " + xhr.statusText);
         }
       });
+
+      xhr.addEventListener("error", function() {
+          onError("<Error: 'Server'> Произошла ошибка соединения");
+      });
+
+      xhr.addEventListener("timeout", function() {
+          onError("<Error: 'Timeout'> Запрос не успел выполниться за " + xhr.timeout + "мс");
+      });
+
       //Отправка запроса
       xhr.send();
     },
     save: function(data, onLoad, onError) {
+      var URL = "https://js.dump.academy/code-and-magick";
+      //Создание нового запроса
+      var xhr = new XMLHttpRequest();
+      //Инициализация запроса
+      xhr.open("POST", URL);
+      //Указание формата ответа
+      xhr.responseType = "json";
+      //Выполнить, при получениии ответа
+      xhr.addEventListener("load", function() {
+      if (xhr.status === 200) {
+        onLoad(xhr.response);
+      } else {
+        onError("<Error: 'Client'> Ошибка " + "#" + xhr.status + " " + xhr.statusText);
+      }
+      });
 
+      xhr.addEventListener("error", function() {
+          onError("<Error: 'Server'> Произошла ошибка соединения");
+      });
+
+      xhr.addEventListener("timeout", function() {
+          onError("<Error: 'Timeout'> Запрос не успел выполниться за " + xhr.timeout + "мс");
+      });
+
+      //Отправка запроса
+      xhr.send(data);
     }
   };
 })();

@@ -160,68 +160,59 @@ var getRandom = function () {
 
 ///// Создание похожих волшебников /////
 
-
-var onLoad = function(data) {
-  console.log(data);
-};
-var onError = function(message) {
-  console.error(message);
-};
-//Запрос данных для похожих волшебников
-window.backend.load(onLoad, onError);
-
-
-//Характеристики волшебников
-var firstName = ["Иван", "Хуан Себастьян", "Мария", "Кристоф", "Виктор", "Юлия", "Люпита", "Вашингтон", "Иван", "Хуан Себастьян"];
-
-var secondName = ["да Марья", "Верон", "Мирабелла", "Вальц", "Онопко", "Топольницкая", "Нионго", "Ирвинг", "да Марья", "Верон"];
-
-var coatColor = ["rgb(101, 137, 164)", "rgb(241, 43, 107)", "rgb(146, 100, 161)", "rgb(56, 159, 117)", "rgb(215, 210, 55)", "rgb(0, 0, 0)", "rgb(101, 137, 164)", "rgb(241, 43, 107)", "rgb(146, 100, 161)", "rgb(56, 159, 117)"];
-
-var eyesColor = ["black", "red", "blue", "yellow", "green", "black", "red", "blue", "yellow", "green"];
-
-//Волшебники
-var wizards = [
-  {
-  name: firstName[getRandom()] + " " + secondName[getRandom()],
-  coatColor: coatColor[getRandom()],
-  eyesColor: eyesColor[getRandom()]
-  },
-  {
-  name: firstName[getRandom()] + " " + secondName[getRandom()],
-  coatColor: coatColor[getRandom()],
-  eyesColor: eyesColor[getRandom()]
-  },
-  {
-  name: firstName[getRandom()] + " " + secondName[getRandom()],
-  coatColor: coatColor[getRandom()],
-  eyesColor: eyesColor[getRandom()]
-  },
-  {
-  name: firstName[getRandom()] + " " + secondName[getRandom()],
-  coatColor: coatColor[getRandom()],
-  eyesColor: eyesColor[getRandom()]
-  }
-];
-
-//Окно со списком волшебников
+//Окно со списком похожих волшебников
 document.querySelector(".setup-similar").classList.remove("hidden");
 
-//Список волшебников
+//Список похожих волшебников
 var similarListElement = document.querySelector(".setup-similar-list");
 
 //Шаблон волшебника
 var similarWizardTemplate = document.querySelector("#similar-wizard-template").content.querySelector(".setup-similar-item");
 
-//Добавление волшебников в список
-for (var i = 0; i < wizards.length; i++) {
-  var wizardElement = similarWizardTemplate.cloneNode(true);
+//Получение данных о волшебниках с Успехом
+var onSuccess = function (wizard) {
+  //Коллекция для вставки списка похожих волшебниклв
+  var fragment = document.createDocumentFragment();
 
-  wizardElement.querySelector(".wizard-coat").style.fill = wizards[i].coatColor;
+  //Вставка списка похожих волшебников в коллекцию
+  for (var i = 0; i < 4; i++) {
+    var wizardElement = similarWizardTemplate.cloneNode(true);
 
-  wizardElement.querySelector(".wizard-eyes").style.fill = wizards[i].eyesColor;
+    wizardElement.querySelector(".wizard-coat").style.fill = wizard[i].colorCoat;
 
-  wizardElement.querySelector(".setup-similar-label").textContent = wizards[i].name;
+    wizardElement.querySelector(".wizard-eyes").style.fill = wizard[i].colorEyes;
 
-  similarListElement.appendChild(wizardElement);
-}
+    wizardElement.querySelector(".setup-similar-label").textContent = wizard[i].name;
+
+    fragment.appendChild(wizardElement);
+  }
+
+  //Вставка коллекции со списком похожих волшебников на страницу
+  similarListElement.appendChild(fragment);
+};
+
+//Получение данных о волшебниках с Ошибкой
+var onError =  function (errorMessage) {
+  //Всплывающее сообщение об ошибке
+  var message = document.createElement("div");
+  message.style = "z-index: 100; width: 30%; margin: 0 auto; padding: 20px; border: 5px solid black; box-sizing: border-box; text-align: center; background-color: red; color: black";
+  message.style.position = "absolute";
+  message.style.top = "50%";
+  message.style.left = 0;
+  message.style.right = 0;
+  message.style.fontSize = "30px";
+
+  message.textContent = errorMessage;
+  document.body.insertAdjacentElement("afterBegin", message);
+};
+
+//Наполнение шаблонов волшебника данными с сервера
+window.backend.load(onSuccess, onError);
+
+//Отправка данных формы волшебника персонажа без перезагрузки
+userForm.addEventListener("submit", function(evt) {
+  window.backend.save(new FormData(userForm), function(success) {
+    closeUserPopup();
+  });
+  evt.preventDefault();
+});
