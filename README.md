@@ -1,7 +1,7 @@
 # Проект «Код и Магия»
 [![Build status][travis-image]][travis-url] [![Dependency status][dependency-image]][dependency-url]
 
-* [Демо проекта](https://andreysgra.github.io/sedona-adaptive/)
+* [Демо проекта](https://benuelbertran.github.io/codemagic/)
 
 ---
 
